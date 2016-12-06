@@ -1,0 +1,41 @@
+step-1
+create or replace type val is varray(5) of integer;
+step-2
+
+
+create or replace function sort1(value val)
+return val
+is 
+temp integer;
+value1 val;
+begin
+value1:=value;
+for i in 1..4
+loop
+for j in 1..4
+loop
+if value1(j) > value1 (j+1)
+then
+temp:=value1(j);
+value1(j):=value1(j+1);
+value1(j+1):=temp;
+end if;
+end loop;
+end loop;
+for i in 1..5
+loop
+dbms_output.put_line(value1(i));
+end loop;
+return value1;
+end;
+/
+
+
+step-3
+declare 
+value val;
+begin
+value:=val(2,5,3,1,6);
+value:=sort1(value);
+end;
+/
