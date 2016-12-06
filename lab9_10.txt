@@ -1,0 +1,188 @@
+-----------------------------LAB-9---------------------------------
+
+
+1-
+DECLARE
+var1 INTEGER;
+var2 INTEGER;
+var3 INTEGER;
+
+BEGIN
+var1 := &var1;
+var2 := &var2;
+var3 := var1+var2;
+
+DBMS_OUTPUT.PUT_LINE( 'var3 = ' || var3);
+
+EXCEPTION
+WHEN ZERO_DIVIDE THEN
+DBMS_OUTPUT.PUT_LINE('Division by Zero');
+
+END;
+/
+
+2-
+DECLARE
+upper number(2);
+lower number(2);
+tot number(2);
+
+BEGIN
+tot := 0;
+lower := &lower;
+upper := &upper;
+For i in lower..upper
+Loop
+tot:=tot+i;
+End loop;
+
+DBMS_OUTPUT.PUT_LINE(tot);
+EXCEPTION
+WHEN ZERO_DIVIDE THEN
+DBMS_OUTPUT.PUT_LINE('Division by Zero');
+
+END;
+/
+
+3-
+declare
+eno emp.empno%type;
+name emp.ename%type;
+hd emp.hiredate%type;
+dn dept.dname%type;
+begin
+eno := &eno;
+select ename,hiredate,dname into name,hd,dn from emp e,dept d where
+empno=eno and e.deptno=d.deptno;
+dbms_output.put_line('name of the employee is '||name);
+dbms_output.put_line('hiredate of the employee is '||to_char(hd));
+dbms_output.put_line('department name of the employee is '||dn);
+end;
+/
+
+4-
+DECLARE
+num integer;
+n integer;
+rev integer;
+digit integer;
+
+BEGIN
+num := &num;
+n := num;
+rev := 0;
+
+While num!=0 Loop
+digit := mod(num,10);
+rev :=(rev * 10)+digit;
+num := num/10;
+end loop;
+
+IF n=rev then
+DBMS_OUTPUT.PUT_LINE('yes');
+else
+DBMS_OUTPUT.PUT_LINE('NO');
+end if;
+END;
+/
+
+5-
+declare
+eno emp.empno%type;
+name emp.ename%type;
+ejob emp.job%type;
+emgr emp.mgr%type;
+hd emp.hiredate%type;
+esale emp.sal%type;
+ecomm emp.comm%type;
+edeptno emp.deptno%type;
+begin
+eno := &eno;
+name := &name;
+ejob := &ejob;
+emgr := &emgr;
+hd := &hd;
+esale := &esale;
+ecomm := &ecomm;
+edeptno := &edeptno;
+INSERT INTO EMP VALUES
+        (eno, name,  ejob,   emgr,
+        TO_DATE(hd, 'DD-MON-YYYY'),  esale, ecomm, edeptno);
+
+dbms_output.put_line('successfully enetered ');
+end;
+/
+
+6-
+
+
+7-
+DECLARE
+upper integer;
+lower integer;
+tot integer;
+
+BEGIN
+tot := 0;
+lower := 1;
+upper := 100;
+For i in lower..upper
+Loop
+tot:=tot+i;
+End loop;
+
+DBMS_OUTPUT.PUT_LINE(tot);
+EXCEPTION
+WHEN ZERO_DIVIDE THEN
+DBMS_OUTPUT.PUT_LINE('Division by Zero');
+
+END;
+/
+
+
+-----------------------------LAB-10---------------------------------
+
+1- CREATE VIEW EMP_ACC AS  select * from emp where deptno in (select deptno from dept where dname='ACCOUNTING');
+
+2 (a)- DECLARE
+   CURSOR cv_emp_cursor2 IS
+      SELECT empno, ename,job
+        FROM emp WHERE SAL>2000;
+BEGIN
+   FOR v_emp IN cv_emp_cursor2 LOOP
+      DBMS_OUTPUT.PUT_LINE(
+	'EMPNO =' || v_emp.empno || ',ename = '|| 	v_emp.ename || ',job = '|| v_emp.job ); 
+END LOOP;
+END;
+/
+
+2 (b)- DECLARE
+   CURSOR cv_emp_cursor2 IS
+      SELECT empno, ename,job
+        FROM emp WHERE ROWNUM<11;
+BEGIN
+   FOR v_emp IN cv_emp_cursor2 LOOP
+      DBMS_OUTPUT.PUT_LINE(
+	'EMPNO =' || v_emp.empno || ',ename = '|| 	v_emp.ename || ',job = '|| v_emp.job ); 
+END LOOP;
+END;
+/
+
+3-
+CREATE replace PROCEDURE add_num IS
+a integer:=2;
+b integer:=1;
+BEGIN
+a:=a+b;
+DBMS_OUTPUT.PUT_LINE(a);
+END; 
+/
+BEGIN
+ add_num;
+END;
+/
+
+
+
+
+
