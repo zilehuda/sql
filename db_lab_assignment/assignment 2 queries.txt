@@ -1,0 +1,28 @@
+1- select cu_name from customers where cu_id in (select cu_id from bookings group by cu_id having count(distinct ca_id)=(select count(ca_id) from cars));
+2- select cu_id,ca_id from Bookings where ca_id in (select ca_id from cars where ca_model='Suzuki, Mehran');
+3- select ca_id,count(ca_id) from bookings where ca_id in (select ca_id from cars where color='red') group by ca_id  ;
+4- select cu_name from customers where cu_id in (select  distinct cu_id from bookings where ca_id in (select ca_id from cars where color='red') minus
+select  distinct cu_id from bookings where ca_id in (select ca_id from cars where color='green')) ;
+5- select cu_name from customers where cu_id not in (select  distinct cu_id from bookings) ;
+6- 
+7- select ca_id,count(distinct cu_id) from bookings group by ca_id  ; > not complete
+8- select to_char(day,'MONTH'),count(cu_id) from bookings  group by to_char(day,'MONTH') order by count(cu_id); > not complete
+9-
+10-
+11-
+12- select c.cu_id,c.cu_name,b.ca_id as booking from customers c  left outer join bookings b on(c.cu_id=b.cu_id);
+13- delete from cars where ca_model = 'Suzuki, Mehran';
+14- insert into Bookings(cu_id,ca_id,day) values(29,103,TO_DATE('12-AUG-1998', 'DD-MON-YYYY'));
+15- create table customer_free as (select * from customers where cu_id not in ( select cu_id from bookings));
+16- select cu_id,age,cu_name from customers where cu_id not in ( select cu_id from bookings) and age >20  and cu_name like '%mm%';\
+17- select f_name from faculty where f_id in (select f_id from class where room='R-11');
+18- select count(s_num) from student  where dept_id in (select dept_id from department where dname='CS');
+19- select s_num,s_name from student where s_num in
+( select s_num from enrolled where c_name in(select c_name from class where f_id in(select f_id from faculty where f_name='Muhammad Rafi')));
+20- select s_num,s_name from student where s_num in ( select s_num from enrolled where c_name in(select c_name from class where f_id not in(select f_id from faculty where f_name='Muhammad Rafi')));
+21- select dept_id,count(s_num) from student group by dept_id; > not complete
+22- 
+23- select s_name from student where s_num in ( select s_num from enrolled where c_name!='IR');
+24- select count(s_num) from student where dept_id in ( select dept_id from department where dname='CS' and location='Lahore');
+25- select f.f_id,f.f_name,c.c_name,count(e.s_num) from faculty f,class c,enrolled e where f.f_id=c.f_id and c.c_name=e.c_name ;
+26- select dept_id,count(s_num) from student group by dept_id;

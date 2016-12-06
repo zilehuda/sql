@@ -1,0 +1,235 @@
+**************************************
+| Db-Script for Mid and Assignment   |
+| Made by Basit Jasani 		     |
+| Fall 2016	       		     |
+**************************************
+
+________________________________________________________________________________________________________________________________________
+
+Schema # 1
+_________________________________________________________________________________________________________________________________________
+
+Drop tables if exists
+
+drop table Department;
+drop table Student;
+drop table Faculty;
+drop table Class;
+drop table Enrolled;
+
+
+Step-1: Creating Department, Student, Faculty, Class and Enrolled Tables.
+
+create table Department(
+       dept_id    int not null constraint department_pk primary key,
+       dname      varchar2(20),
+       location   varchar2(20)
+);
+
+create table Student(
+       s_num      int not null constraint student_pk primary key,
+       s_name     varchar2(20),
+       age        number(2),
+       dept_id    int,
+       foreign key (dept_id) references Department(dept_id)
+       ON DELETE CASCADE      
+);
+
+create table Faculty(
+       f_id      int not null constraint faculty_pk primary key,
+       f_name    varchar2(20),
+       dept_id   int,
+       foreign key (dept_id) references Department(dept_id)
+       ON DELETE CASCADE      
+);
+
+create table Class(
+       c_name      varchar2(20) not null constraint Class_pk primary key,
+       time 	   varchar2(20),
+       room	   varchar2(20),
+       f_id	   int,
+       foreign key (f_id) references Faculty(f_id)
+       ON DELETE CASCADE      
+);
+
+create table Enrolled(
+       s_num      int,
+       c_name     varchar2(20),	
+       primary key (s_num,c_name),
+       foreign key (s_num) references Student(s_num)
+               ON DELETE CASCADE,
+       foreign key (c_name) references Class(c_name)
+               ON DELETE CASCADE 
+);
+
+
+Step-2: Filling the data into the tables
+
+insert into Department (dept_id,dname,location)
+values(10,'CS','Karachi');
+insert into Department (dept_id,dname,location)
+values(20,'EE','Karachi');
+insert into Department (dept_id,dname,location)
+values(30,'CS','Lahore');
+insert into Department (dept_id,dname,location)
+values(40,'EE','Lahore');
+
+
+insert into Student (s_num,s_name,age,dept_id)
+values(122280,'Hassan',19,10);
+insert into Student (s_num,s_name,age,dept_id)
+values(122046,'Mike',19,20);
+insert into Student (s_num,s_name,age,dept_id)
+values(122062,'Ayaan',19,30);
+insert into Student (s_num,s_name,age,dept_id)
+values(122021,'Ali',19,30);
+insert into Student (s_num,s_name,age,dept_id)
+values(122023,'Zaeem',19,10);
+insert into Student (s_num,s_name,age,dept_id)
+values(122292,'Rashid',19,20);
+insert into Student (s_num,s_name,age,dept_id)
+values(122232,'Murad',19,30);
+insert into Student (s_num,s_name,age,dept_id)
+values(122212,'Micky',19,40);
+insert into Student (s_num,s_name,age,dept_id)
+values(122214,'Jabeen',19,30);
+insert into Student (s_num,s_name,age,dept_id)
+values(122216,'Raza',19,40);
+
+insert into Faculty (f_id, f_name, dept_id)
+values ( 1, 'Muhammad Rafi' , 10);
+insert into Faculty (f_id, f_name, dept_id)
+values ( 2, 'Muhammad Usman' , 20);
+insert into Faculty (f_id, f_name, dept_id)
+values ( 3, 'Muhammad Raza' , 10);
+insert into Faculty (f_id, f_name, dept_id)
+values ( 4, 'Muhammad Ali' , 40);
+insert into Faculty (f_id, f_name, dept_id)
+values ( 5, 'Muhammad Nabeel' , 30);
+
+
+insert into class ( c_name, time, room, f_id) 
+values ( 'DB' , '10:30' , 'R-12' , 1 );
+insert into class ( c_name, time, room, f_id) 
+values ( 'IS' , '10:30' , 'R-11' , 2 );
+insert into class ( c_name, time, room, f_id) 
+values ( 'PM' , '11:30' , 'R-12' , 3 );
+insert into class ( c_name, time, room, f_id) 
+values ( 'RM' , '12:30' , 'R-11' , 4 );
+insert into class ( c_name, time, room, f_id) 
+values ( 'IR' , '1:30' , 'R-12' , 1 );
+insert into class ( c_name, time, room, f_id) 
+values ( 'DS' , '10:30' , 'R-109' , 5 );
+
+
+insert into Enrolled (s_num, c_name)
+values (122280, 'IS');
+insert into Enrolled(s_num, c_name)
+values (122212, 'DB');
+insert into Enrolled(s_num, c_name)
+values (122214, 'DS');
+insert into Enrolled(s_num, c_name)
+values (122046, 'DB');
+insert into Enrolled(s_num, c_name)
+values (122062, 'IS');
+insert into Enrolled(s_num, c_name)
+values (122021, 'PM');
+insert into Enrolled(s_num, c_name)
+values (122280, 'DB');
+insert into Enrolled (s_num, c_name)
+values (122292, 'RM');
+insert into Enrolled(s_num, c_name)
+values (122023, 'PM');
+
+
+
+_________________________________________________________________________________________________________________________________________
+
+Schema # 2
+_________________________________________________________________________________________________________________________________________
+
+Drop tables if exists
+
+drop table Customers;
+drop table Cars;
+drop table Bookings;
+
+Step-1: Creating Customers, Cars and Bookings table
+
+create table Customers(
+       cu_id      int not null constraint customers_pk primary key,
+       cu_name    varchar2(20),
+       cu_fname   varchar2(20),
+       age       number(2)
+);
+
+create table Cars(
+       ca_id      int not null constraint cars_pk primary key,
+       ca_model   varchar2(20),
+       color     varchar2(20)
+);
+
+create table Bookings(
+       cu_id       int,
+       ca_id       int,
+       day  	   date,
+       primary key (cu_id,ca_id,day),
+       foreign key (cu_id) references Customers(cu_id)
+               ON DELETE CASCADE,
+       foreign key (ca_id) references Cars(ca_id)
+               ON DELETE CASCADE 
+);
+
+Step-2: Filling the data into the tables
+
+insert into Customers (cu_id,cu_name,cu_fname,age)
+values(10,'Ayaan','Ali',44);
+insert into Customers (cu_id,cu_name,cu_fname,age)
+values(12,'Sana','Umar',31);
+insert into Customers (cu_id,cu_name,cu_fname,age)
+values(14,'Noman','Qaiser',29);
+insert into Customers (cu_id,cu_name,cu_fname,age)
+values(16,'Andy','Sharma',25);
+insert into Customers (cu_id,cu_name,cu_fname,age)
+values(18,'Rusty','gill',30);
+insert into Customers (cu_id,cu_name,cu_fname,age)
+values(20,'Talha','habib',18);
+insert into Customers (cu_id,cu_name,cu_fname,age)
+values(22,'Zorba','asif',16);
+insert into Customers (cu_id,cu_name,cu_fname,age)
+values(24,'Parvez','Musharaf',55);
+insert into Customers (sid,sname,rating,age)
+values(26,'Art','kumar',51);
+insert into Customers (cu_id,cu_name,cu_fname,age)
+values(28,'Bob','wilsom',36);
+
+insert into Cars (ca_id,ca_model,color)
+values(101,'Suzuki, Mehran','blue');
+insert into Cars (ca_id,ca_model,color)
+values(102,'Suzuki, Mehran','red');
+insert into Cars (ca_id,ca_model,color)
+values(103,'Hummer','green');
+insert into Cars (ca_id,ca_model,color)
+values(104,'Corolla, XLI','red');
+
+insert into Bookings(cu_id,ca_id,day)
+values(10,101,TO_DATE('10-OCT-1998', 'DD-MON-YYYY'));
+insert into Bookings(cu_id,ca_id,day)
+values(14,102,TO_DATE('10-NOV-1998', 'DD-MON-YYYY'));
+insert into Bookings(cu_id,ca_id,day)
+values(10,103,TO_DATE('8-OCT-1998', 'DD-MON-YYYY'));
+insert into Bookings(cu_id,ca_id,day)
+values(14,103,TO_DATE('6-NOV-1998', 'DD-MON-YYYY'));
+insert into Bookings(cu_id,ca_id,day)
+values(10,102,TO_DATE('10-OCT-1998', 'DD-MON-YYYY'));
+insert into Bookings(cu_id,ca_id,day)
+values(14,104,TO_DATE('12-NOV-1998', 'DD-MON-YYYY'));
+insert into Bookings(cu_id,ca_id,day)
+values(20,101,TO_DATE('5-SEP-1998', 'DD-MON-YYYY'));
+insert into Bookings(cu_id,ca_id,day)
+values(20,102,TO_DATE('8-SEP-1998', 'DD-MON-YYYY'));
+insert into Bookings(cu_id,ca_id,day)
+values(24,103,TO_DATE('8-SEP-1998', 'DD-MON-YYYY'));
+insert into Bookings(cu_id,ca_id,day)
+values(10,104,TO_DATE('7-OCT-1998', 'DD-MON-YYYY'));
+
